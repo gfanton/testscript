@@ -1,0 +1,14 @@
+# Test conditional execution
+[!windows] mkdir unix-only
+[windows] mkdir windows-only
+
+# Skip this test on short runs
+[!short] mkdir long-test-dir
+
+# Test some basic directory existence
+[!windows] exists unix-only
+[windows] exists windows-only
+
+# Embed test data
+-- platform.txt --
+This is a test file that exists on all platforms

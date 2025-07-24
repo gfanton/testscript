@@ -1,0 +1,19 @@
+# Test basic file operations
+mkdir foo
+cd foo
+
+# Test with archive data
+-- world.txt --
+hello world
+
+# Check that files exist
+exists world.txt
+
+-- input.txt --
+This is test input data
+for the archive section
+-- expected.txt --
+This is expected output
+
+exists input.txt
+exists expected.txt
