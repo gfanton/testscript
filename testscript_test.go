@@ -1,16 +1,16 @@
-package tstar
+package testscript
 
 import (
 	"testing"
 )
 
-func TestTstarBasic(t *testing.T) {
+func TestTsarBasic(t *testing.T) {
 	Run(t, Params{
 		Dir: "examples/testdata",
 	})
 }
 
-func TestTstarWithCommands(t *testing.T) {
+func TestTsarWithCommands(t *testing.T) {
 	Run(t, Params{
 		Dir: "examples/testdata",
 		Commands: map[string]func(*TestScript, bool, []string){

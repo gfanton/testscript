@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gfanton/tstar"
+	"github.com/gfanton/testscript"
 	"github.com/peterbourgon/ff/v4"
 )
 
@@ -92,8 +92,8 @@ func execTestRunner(ctx context.Context, cfg *config, args []string) error {
 	}
 	os.Args = oldArgs
 
-	// Create parameters for tstar
-	params := tstar.Params{
+	// Create parameters for testscript
+	params := testscript.Params{
 		TestWork:            cfg.testWork,
 		WorkdirRoot:         cfg.workdirRoot,
 		ContinueOnError:     cfg.contineOnError,
@@ -118,7 +118,7 @@ func execTestRunner(ctx context.Context, cfg *config, args []string) error {
 		}
 
 		params.Dir = filepath.Dir(absPath)
-		tstar.RunFilesStandalone(runner, params, absPath)
+		testscript.RunFilesStandalone(runner, params, absPath)
 	} else {
 		// Directory execution
 		absPath, err := filepath.Abs(target)
@@ -127,7 +127,7 @@ func execTestRunner(ctx context.Context, cfg *config, args []string) error {
 		}
 
 		params.Dir = absPath
-		tstar.RunStandalone(runner, params)
+		testscript.RunStandalone(runner, params)
 	}
 
 	if runner.failed {

@@ -1,6 +1,6 @@
 # testscript - Script-driven Testing Library
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/gfanton/tstar.svg)](https://pkg.go.dev/github.com/gfanton/tstar)
+[![Go Reference](https://pkg.go.dev/badge/github.com/gfanton/testscript.svg)](https://pkg.go.dev/github.com/gfanton/testscript)
 
 `testscript` is a Go testing library for script-driven tests, heavily inspired by and adapted from the [testscript](https://pkg.go.dev/github.com/rogpeppe/go-internal/testscript) package originally developed by [Roger Peppe](https://github.com/rogpeppe). The library enables complex integration and system testing scenarios using `.tsar` files (testscript archive format).
 
@@ -21,12 +21,12 @@ The command-line tool is named `tsar` (short for "testscript archive"), while th
 
 ### Library
 ```bash
-go get github.com/gfanton/tstar
+go get github.com/gfanton/testscript
 ```
 
 ### Command-line Tool
 ```bash
-go install github.com/gfanton/tstar/cmd/tsar@latest
+go install github.com/gfanton/testscript/cmd/tsar@latest
 ```
 
 ## Quick Start
@@ -60,19 +60,19 @@ package mypackage
 
 import (
     "testing"
-    "github.com/gfanton/tstar"
+    "github.com/gfanton/testscript"
 )
 
 func TestMyCommand(t *testing.T) {
-    tstar.Run(t, tstar.Params{
+    testscript.Run(t, testscript.Params{
         Dir: "testdata",
-        Commands: map[string]func(*tstar.TestScript, bool, []string){
+        Commands: map[string]func(*testscript.TestScript, bool, []string){
             "mycommand": handleMyCommand,
         },
     })
 }
 
-func handleMyCommand(ts *tstar.TestScript, neg bool, args []string) {
+func handleMyCommand(ts *testscript.TestScript, neg bool, args []string) {
     // Your custom command implementation
     if len(args) < 2 {
         ts.Fatalf("usage: mycommand <arg>")
@@ -131,10 +131,10 @@ Available flags:
 
 ### Basic API
 
-The main entry point is `tstar.Run()`:
+The main entry point is `testscript.Run()`:
 
 ```go
-tstar.Run(t, tstar.Params{
+testscript.Run(t, testscript.Params{
     Dir: "testdata",           // Directory containing .tsar files
     Commands: customCommands,   // Your custom commands
     TestWork: false,           // Keep work directories after tests
@@ -148,8 +148,8 @@ tstar.Run(t, tstar.Params{
 Register custom commands by providing a map of command names to handler functions:
 
 ```go
-commands := map[string]func(*tstar.TestScript, bool, []string){
-    "echo": func(ts *tstar.TestScript, neg bool, args []string) {
+commands := map[string]func(*testscript.TestScript, bool, []string){
+    "echo": func(ts *testscript.TestScript, neg bool, args []string) {
         // Implementation for 'echo' command
         if len(args) < 2 {
             ts.Fatalf("usage: echo text...")
@@ -161,7 +161,7 @@ commands := map[string]func(*tstar.TestScript, bool, []string){
 
 ### Built-in Commands
 
-`tstar` provides several built-in commands:
+The library provides several built-in commands:
 
 - `cd <dir>` - Change directory
 - `mkdir <dir>...` - Create directories
@@ -212,7 +212,7 @@ when the test runs.
 Within custom commands, you have access to the `TestScript` context:
 
 ```go
-func myCommand(ts *tstar.TestScript, neg bool, args []string) {
+func myCommand(ts *testscript.TestScript, neg bool, args []string) {
     // File operations
     content := ts.ReadFile("somefile.txt")
     

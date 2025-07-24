@@ -1,24 +1,24 @@
-// Package tstar provides support for script-driven tests.
+// Package testscript provides support for script-driven tests.
 //
 // This package is heavily inspired by and adapted from the testscript package
 // from github.com/rogpeppe/go-internal/testscript, originally developed by
 // Roger Peppe and contributors. The original design and implementation patterns
 // have been preserved while adapting the functionality to work generically
-// with .tstar files instead of .txtar files.
+// with .tsar files instead of .txtar files.
 //
 // Original testscript package: https://pkg.go.dev/github.com/rogpeppe/go-internal/testscript
 // Original author: Roger Peppe <rogpeppe@gmail.com>
 //
-// The tstar package allows users to define filesystem-based tests by creating
+// The testscript package allows users to define filesystem-based tests by creating
 // scripts in .tsar format, enabling complex integration and system testing
 // scenarios with custom commands and isolated environments.
 //
 // Basic usage:
 //
 //	func TestMyCommand(t *testing.T) {
-//	    tstar.Run(t, tstar.Params{
+//	    testscript.Run(t, testscript.Params{
 //	        Dir: "testdata",
-//	        Commands: map[string]func(*tstar.TestScript, bool, []string){
+//	        Commands: map[string]func(*testscript.TestScript, bool, []string){
 //	            "mycommand": handleMyCommand,
 //	        },
 //	    })
@@ -28,7 +28,7 @@
 // environment. The package provides built-in commands for file operations,
 // content checking, and process execution, while allowing users to register
 // their own custom commands.
-package tstar
+package testscript
 
 import (
 	"bytes"
@@ -302,9 +302,9 @@ func (ts *TestScript) setup() {
 	ts.start = StartTime
 	ts.background = nil
 
-	ts.workdir = filepath.Join(os.TempDir(), "tstar"+fmt.Sprint(os.Getpid())+fmt.Sprint(StartTime.Unix()))
+	ts.workdir = filepath.Join(os.TempDir(), "tsar"+fmt.Sprint(os.Getpid())+fmt.Sprint(StartTime.Unix()))
 	if ts.params.WorkdirRoot != "" {
-		ts.workdir = filepath.Join(ts.params.WorkdirRoot, "tstar"+fmt.Sprint(os.Getpid())+fmt.Sprint(StartTime.Unix()))
+		ts.workdir = filepath.Join(ts.params.WorkdirRoot, "tsar"+fmt.Sprint(os.Getpid())+fmt.Sprint(StartTime.Unix()))
 	}
 
 	if err := os.MkdirAll(ts.workdir, 0755); err != nil {
